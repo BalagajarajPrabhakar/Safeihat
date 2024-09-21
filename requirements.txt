@@ -1,3 +1,5 @@
 streamlit
 subprocess.run
 requests
+pandas
+mysql-connector-python
