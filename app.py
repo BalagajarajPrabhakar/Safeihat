@@ -147,6 +147,6 @@ Answer:""",
             st.error(f"Error: {response.status_code} - {response.text}")
     else:
         st.warning("Please enter a question.")
-
+st.write("recommendations to farmers enhance productivity")
 if __name__ == "__main__":
     main()
