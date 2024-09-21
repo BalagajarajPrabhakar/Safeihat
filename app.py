@@ -31,7 +31,7 @@ def fetch_latest_sensor_value():
     return result[0] if result else None
 
 # Streamlit application
-st.head("Safeihat")
+st.header("Safeihat")
 st.subheader("Empowering Farmers with Real-Time Data and AI: Enhancing Precision Agriculture through IBM Watsonx.ai and Generative Technology")
 st.set_page_config(page_title="Sensor Data", layout="wide")
 st.title("SENSOR DATA")
