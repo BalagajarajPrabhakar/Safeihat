@@ -15,7 +15,7 @@ def get_iam_token():
         # Print raw output for debugging
         return a[19:1597]
 # Set up the title of the app
-token = get_iam_token()
+#token = get_iam_token()
 st.write(token)
 st.title("Tomato Information Generator")
 
@@ -57,7 +57,7 @@ Answer:""",
         headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization":f"Bearer {token}"
+            "Authorization":"Bearer eyJraWQiOiIyMDI0MDkwMjA4NDIiLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC02OTQwMDBKMEZGIiwiaWQiOiJJQk1pZC02OTQwMDBKMEZGIiwicmVhbG1pZCI6IklCTWlkIiwic2Vzc2lvbl9pZCI6IkMtZGRiMDA2MWMtMWIzYS00MzU4LTkwNzYtNWFmMTA3ZTZlMDUxIiwic2Vzc2lvbl9leHBfbWF4IjoxNzI2OTcwNTc4LCJzZXNzaW9uX2V4cF9uZXh0IjoxNzI2OTAxNTc1LCJqdGkiOiIyYTQ0NDIzZC05ODRjLTRlMmQtYWViYS1lOWMxNGQyNTM3YWEiLCJpZGVudGlmaWVyIjoiNjk0MDAwSjBGRiIsImdpdmVuX25hbWUiOiJCYWxhZ2FqYXJhaiIsImZhbWlseV9uYW1lIjoiUHJhYmhha2FyIiwibmFtZSI6IkJhbGFnYWphcmFqIFByYWJoYWthciIsImVtYWlsIjoiYmFsYXByYWJoYTYwQGdtYWlsLmNvbSIsInN1YiI6ImJhbGFwcmFiaGE2MEBnbWFpbC5jb20iLCJhdXRobiI6eyJzdWIiOiJiYWxhcHJhYmhhNjBAZ21haWwuY29tIiwiaWFtX2lkIjoiSUJNaWQtNjk0MDAwSjBGRiIsIm5hbWUiOiJCYWxhZ2FqYXJhaiBQcmFiaGFrYXIiLCJnaXZlbl9uYW1lIjoiQmFsYWdhamFyYWoiLCJmYW1pbHlfbmFtZSI6IlByYWJoYWthciIsImVtYWlsIjoiYmFsYXByYWJoYTYwQGdtYWlsLmNvbSJ9LCJhY2NvdW50Ijp7InZhbGlkIjp0cnVlLCJic3MiOiJjNjkzNTFiNGNjYjk0MmRlOTAzMzJkNWUzOTMyYWI3NCIsImltc191c2VyX2lkIjoiMTI2ODc5NTciLCJpbXMiOiIyNzUwMjIyIn0sImlhdCI6MTcyNjg5NDM3MiwiZXhwIjoxNzI2ODk1NTcyLCJpc3MiOiJodHRwczovL2lhbS5jbG91ZC5pYm0uY29tL2lkZW50aXR5IiwiZ3JhbnRfdHlwZSI6InVybjppYm06cGFyYW1zOm9hdXRoOmdyYW50LXR5cGU6cGFzc2NvZGUiLCJzY29wZSI6ImlibSBvcGVuaWQiLCJjbGllbnRfaWQiOiJieCIsImFjciI6MSwiYW1yIjpbInB3ZCJdfQ.oUZ8QfNhoJ1VsXF46Mz6kqODVVJ61OjVhbaRXTU-Pjx74E0q40F4l2GoSAAG_vLT023LqUWkHmBB5HfMkO1HeLETgR109LNP-KB9FpIHa0XJIR2SLtYiAdIaLGb2zRam00HOpGEQV8A5DpfATJrn08QK4glCE7FAIMJQEWutJxjR4tdmvPqxj4u4fYSMY1sh_EeBmMiVocjonoJlnWi9ZETuQYxzY7E0zKLdfREiAxXa1YqtNT5tNwXshRhgJOwY35KrKf0IXs1BTk7kbHGoVYnUVDGQmGJN66cliwDPL__NtGKoH7AMDLbttHDhgrVBmINkh43WPuM2vdkUNaCDAQ"
         }
 
         # Send the POST request
