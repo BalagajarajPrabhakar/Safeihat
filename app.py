@@ -1,22 +1,98 @@
+from ast import main
 import streamlit as st
 import requests
-import subprocess
+import pandas as pd
+import mysql.connector
 
-def get_iam_token():
-        
-        result = subprocess.run(
-            ['ibmcloud', 'iam', 'oauth-tokens'],
-            capture_output=True,
-            text=True,
-            check=False
-        )
-        a=result.stdout
+# Database configuration
+DB_CONFIG = {
+    'host': 'srv1020.hstgr.io',
+    'database': 'u830421930_sensor_databas',  # REPLACE with your Database name
+    'user': 'u830421930_sensordatabas',      # REPLACE with Database user
+    'password': '12sensData'   # REPLACE with Database user password
+}
 
-        # Print raw output for debugging
-        return a[19:1597]
-# Set up the title of the app
-#token = get_iam_token()
-#st.write(token)
+# Function to fetch sensor data
+def fetch_sensor_data():
+    conn = mysql.connector.connect(**DB_CONFIG)
+    query = "SELECT id, sensor, location, distance, reading_time FROM sensordata ORDER BY id DESC LIMIT 7"
+    df = pd.read_sql(query, conn)
+    conn.close()
+    return df
+
+# Function to fetch the latest sensor value
+def fetch_latest_sensor_value():
+    conn = mysql.connector.connect(**DB_CONFIG)
+    query = "SELECT sensor FROM sensordata ORDER BY reading_time DESC LIMIT 1"
+    cursor = conn.cursor()
+    cursor.execute(query)
+    result = cursor.fetchone()
+    conn.close()
+    return result[0] if result else None
+
+# Streamlit application
+st.set_page_config(page_title="Sensor Data", layout="wide")
+st.title("SENSOR DATA")
+st.write("*Note: When device is offline, no data will be updated.")
+
+# Fetch and display sensor data
+sensor_data = fetch_sensor_data()
+
+# Rename columns as needed
+sensor_data.columns = ['ID', 'Temprature', 'Humidity', 'Moisters', 'Reading Time']
+
+# Display the table with updated headers
+st.table(sensor_data)
+
+# Check the latest sensor value
+latest_sensor_value = fetch_latest_sensor_value()
+threshold = 32  # Example threshold value
+
+if latest_sensor_value is not None:
+    try:
+        latest_sensor_value = float(latest_sensor_value)
+        st.write(f"Latest Sensor Value: {latest_sensor_value}")
+
+        if latest_sensor_value > threshold:
+            st.warning("Alert: Sensor value exceeds the threshold.")
+        else:
+            st.info("Sensor value is within normal range.")
+    except ValueError:
+        st.error("Latest sensor value is not a valid number.")
+else:
+    st.error("No sensor data found.")
+
+# Visualize sensor data
+st.header("Sensor Data Visualization")
+
+# Fetch data for visualization
+data = fetch_sensor_data()
+
+if not data.empty:
+    # Create columns for side-by-side display
+    col1, col2 = st.columns(2)
+
+    # Temperature Chart
+    with col1:
+        st.header("Temperature")
+        if 'reading_time' in data.columns and 'sensor' in data.columns:
+            st.subheader("Temperature Line Chart")
+            st.line_chart(data[['reading_time', 'sensor']].set_index('reading_time'))
+        else:
+            st.warning("Data does not contain required columns for temperature charting.")
+
+    # Humidity Chart
+    with col2:
+        st.header("Humidity")
+        if 'reading_time' in data.columns and 'location' in data.columns:
+            st.subheader("Humidity Line Chart")
+            st.line_chart(data[['reading_time', 'location']].set_index('reading_time'))
+        else:
+            st.warning("Data does not contain required columns for humidity charting.")
+else:
+    st.write("No data available for visualization.")
+
+# Tomato Information Generator
 st.title("Tomato Information Generator")
 
 # Input for the user's question
@@ -53,11 +129,11 @@ Answer:""",
             "project_id": "bc010f4d-391c-4c1b-98dc-a0e0e7e4216d"
         }
 
-        # Define headers, make sure to add your API key
+        # Define headers
         headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization":"Bearer eyJraWQiOiIyMDI0MDkwMjA4NDIiLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC02OTQwMDBKMEZGIiwiaWQiOiJJQk1pZC02OTQwMDBKMEZGIiwicmVhbG1pZCI6IklCTWlkIiwic2Vzc2lvbl9pZCI6IkMtNDJjMWY1MmItZWE3MS00NTVlLWI0MTctYzFlMWU2NTJkNjExIiwic2Vzc2lvbl9leHBfbWF4IjoxNzI2OTg5NzMyLCJzZXNzaW9uX2V4cF9uZXh0IjoxNzI2OTEwNTQ4LCJqdGkiOiI1ODgyNzY5OS00YmI0LTQ2ODEtOGJkYS1lYTU4OGY4NTRhMTciLCJpZGVudGlmaWVyIjoiNjk0MDAwSjBGRiIsImdpdmVuX25hbWUiOiJCYWxhZ2FqYXJhaiIsImZhbWlseV9uYW1lIjoiUHJhYmhha2FyIiwibmFtZSI6IkJhbGFnYWphcmFqIFByYWJoYWthciIsImVtYWlsIjoiYmFsYXByYWJoYTYwQGdtYWlsLmNvbSIsInN1YiI6ImJhbGFwcmFiaGE2MEBnbWFpbC5jb20iLCJhdXRobiI6eyJzdWIiOiJiYWxhcHJhYmhhNjBAZ21haWwuY29tIiwiaWFtX2lkIjoiSUJNaWQtNjk0MDAwSjBGRiIsIm5hbWUiOiJCYWxhZ2FqYXJhaiBQcmFiaGFrYXIiLCJnaXZlbl9uYW1lIjoiQmFsYWdhamFyYWoiLCJmYW1pbHlfbmFtZSI6IlByYWJoYWthciIsImVtYWlsIjoiYmFsYXByYWJoYTYwQGdtYWlsLmNvbSJ9LCJhY2NvdW50Ijp7InZhbGlkIjp0cnVlLCJic3MiOiJjNjkzNTFiNGNjYjk0MmRlOTAzMzJkNWUzOTMyYWI3NCIsImltc191c2VyX2lkIjoiMTI2ODc5NTciLCJpbXMiOiIyNzUwMjIyIn0sImlhdCI6MTcyNjkwMzM0NSwiZXhwIjoxNzI2OTA0NTQ1LCJpc3MiOiJodHRwczovL2lhbS5jbG91ZC5pYm0uY29tL2lkZW50aXR5IiwiZ3JhbnRfdHlwZSI6InVybjppYm06cGFyYW1zOm9hdXRoOmdyYW50LXR5cGU6cGFzc2NvZGUiLCJzY29wZSI6ImlibSBvcGVuaWQiLCJjbGllbnRfaWQiOiJieCIsImFjciI6MSwiYW1yIjpbInB3ZCJdfQ.E_jJNvk6bRIUINeJYiRTk4aMNa33_WurSMfHkey0Tz7UQxya6erSaJUoWn2Jfe9TTIxGF69YXlXgvOB_VXY-mn9L5HtIDcUSIPLBKuFzg3lhqESwJbhrEUyxPGkRxEeJWxvmpAdJtW0EqpgrTHvQEkbv9RtIY5O611uT5qTbDQHknwfh4YzZhAYOB7mPi-9uZq1k-JruQu5lgxlxgv7jp1wBAma1obptxyolNnqS0s5qG6rP-Klv3sO07vt4brQOjNWBxD9wjV-y6ZqKA4PIt2puLmKmK5g0EsqlsV3j7UYej_uud5w1D3oxPN9bbEmWeHg-QShtLvE8CWWYeFKePw"
+            "Authorization": ""  # Add your API key here
         }
 
         # Send the POST request
@@ -67,8 +143,10 @@ Answer:""",
         if response.status_code == 200:
             data = response.json()
             st.success(data["results"][0]['generated_text'])
-           
         else:
             st.error(f"Error: {response.status_code} - {response.text}")
     else:
         st.warning("Please enter a question.")
+
+if __name__ == "__main__":
+    main()
