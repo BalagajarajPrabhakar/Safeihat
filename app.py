@@ -16,7 +16,7 @@ def get_iam_token():
         return a[19:1597]
 # Set up the title of the app
 #token = get_iam_token()
-st.write(token)
+#st.write(token)
 st.title("Tomato Information Generator")
 
 # Input for the user's question
@@ -24,7 +24,7 @@ q = st.text_input("Enter your question:")
 
 # Button to submit the question
 if st.button("Submit"):
-    if q and token:
+    if q:
         # Define the API endpoint
         url = "https://us-south.ml.cloud.ibm.com/ml/v1/text/generation?version=2023-05-29"
 
