@@ -32,7 +32,7 @@ def fetch_latest_sensor_value():
 
 # Streamlit application
 st.set_page_config(page_title="Sensor Data", layout="wide")
-st.header("Safeihat")
+st.title("Safeihat")
 st.subheader("Empowering Farmers with Real-Time Data and AI: Enhancing Precision Agriculture through IBM Watsonx.ai and Generative Technology")
 
 st.title("SENSOR DATA")
