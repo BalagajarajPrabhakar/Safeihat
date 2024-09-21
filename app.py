@@ -93,10 +93,10 @@ else:
     st.write("No data available for visualization.")
 
 # Tomato Information Generator
-st.title("Tomato Information Generator")
+st.title("Framers Prompt to transform leading productivity ")
 
 # Input for the user's question
-q = st.text_input("Question from framer to transform leads to productivity:")
+q = st.text_input("Question")
 
 # Button to submit the question
 if st.button("Submit"):
