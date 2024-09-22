@@ -113,7 +113,7 @@ if st.button("Submit"):
 
 Article: 
 ###
-ph	Moisture%	temperature°C	humidity%	npk	crop
+ph	Moisture%	temperature°F	humidity%	npk	crop
 1	100	20	30	1	rice
 2	101	21	31	2	rice
 3	102	22	32	3	rice
