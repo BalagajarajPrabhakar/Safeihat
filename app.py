@@ -109,7 +109,7 @@ if st.button("Submit"):
 
         # Prepare the request body
         body = {
-            "input": f"""Answer the following question using only information from the table. If there is no good answer in the table, say "I don't know" do not generate answer from internet.
+            "input": f"""Answer the following question using only information from the table. If there is no good answer in the table, say \"I don'\''t know\" do not generate answer from internet.
 
 Article: 
 ###
@@ -521,42 +521,39 @@ ph	Moisture%	temperature°C	humidity%	npk	crop
 3	149	47	81	128	blackgram
 4	150	48	82	130	blackgram
 ###
-Again in instructing u  do not generate answer from internet. use the above table if any question is not related to the table reply "i don't know
-Question:Suggest me the crop selection for 25 Temparature,35 Humidity,105
+Again in instructing u  do not generate answer from internet. use the above table if any question is not related to the table reply \"i don'\''t know\"
+
+Question: Suggest me the crop selection for 25 Temparature,35 Humidity,105
 Moisture ?
+Answer: crop selection - rice
 
-Answer:crop selection - rice
+Question: Optimal moisture level for rice crop
+Answer: 100% to 106%
 
-Question:Optimal moisture level for rice crop
-Answer:100% to 106%
+Question: Best temperature range for maize growth?
+Answer: Between 25°C and 30°C
 
-Question:Best temperature range for maize growth?
-Answer:Between 25°C and 30°C
+Question: Recommended NPK ratio for chickpeas this season?
+Answer: NPK ratio  11-14-12
 
-Question:Recommended NPK ratio for chickpeas this season?
-Answer:NPK ratio  11-14-12
+Question: What temperature is ideal for rice growth?
+Answer: 20°C to 30°C
 
-Question:What temperature is ideal for rice growth?
-Answer:20°C to 30°C
+Question: generate me summery
+Answer: This guide provides essential crop data to help farmers make informed decisions about optimal growing conditions
 
-Question:generate me summery
+Question: give me summery
+Answer: This guide provides essential crop data to help farmers make informed decisions about optimal growing conditions
 
-Answer:This guide provides essential crop data to help farmers make informed decisions about optimal growing conditions
+Question: summarise the data
 
-Question:give me summery
 
-Answer:This guide provides essential crop data to help farmers make informed decisions about optimal growing conditions
+Answer: This guide provides essential crop data to help farmers make informed decisions about optimal growing conditions
 
-Question:summarise the data
+Question: summarise 
+Answer: This guide provides essential crop data to help farmers make informed decisions about optimal growing conditions
 
-Answer:This guide provides essential crop data to help farmers make informed decisions about optimal growing conditions
-
-Question:summarise 
-
-Answer:This guide provides essential crop data to help farmers make informed decisions about optimal growing conditions
-
-Question:{q}
-
+Question: {q}
 Answer:""",
             "parameters": {
 		"decoding_method": "greedy",
