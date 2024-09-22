@@ -557,7 +557,7 @@ Answer:This guide provides essential crop data to help farmers make informed dec
 
 Question:{q}
 
-Answer:"""",
+Answer:""",
             "parameters": {
 		"decoding_method": "greedy",
 		"max_new_tokens": 200,
