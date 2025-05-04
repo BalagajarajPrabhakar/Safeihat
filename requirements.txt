@@ -3,3 +3,9 @@ subprocess.run
 requests
 pandas
 mysql-connector-python
+streamlit==1.35.0
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.4.2
+streamlit-option-menu==0.3.6
+
