@@ -107,5 +107,5 @@ elif selected == "About":
     - Streamlit (Web UI)
     - Decision Tree Classifier (Machine Learning)
 
-    ✅ No internet or external database required after setup.
+    
     """)
